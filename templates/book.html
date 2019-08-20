@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="book-page-container">
+  <div class="book-page">
+    <div class="book-pic">
+        <img src="/static/img/bookimages/{{book.img}}" alt="">
+    </div>
+    <div class="bookdetail">
+      <h2 >
+        {{book.title}}
+        <!-- Strategic Managment -->
+      </h2>
+      <div class="author">
+        <!-- Strategic Managment -->
+        {{book.author}}
+        <br>
+        {{book.subject}}
+      </div>
+      <div class="price-wrap">
+      <div class="price">
+        ${{book.price}}
+      </div>
+      <div class="old-price">
+        ${{book.originalprice}}
+      </div>
+    </div>
+      <div class="btn-wrap">
+        <a href="#buy" class="linebtn btn">
+          <span class="ion-ios-cart-outline "></span>
+          Buy
+          
+        </a>
+      </div>
+  
+    </div>
+  </div>
+</div>
+{% endblock %}

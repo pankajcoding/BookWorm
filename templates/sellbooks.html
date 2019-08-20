@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+{% set active_page = "sellbooks" %}
+{% block body %}
+  <h1> <small> Add books you want to sell</small></h1>
+  <a class="btn btn-success" href="/add_book"> Add Book</a>
+  <hr>
+  <table class="table table-striped">
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Price</th>
+      <th>Subject</th>
+      <th></th>
+      <th></th>
+    </tr>
+    {% for book in books %}
+      <tr>
+        <td>{{book.id}}</td>
+        <td>{{book.title}}</td>
+        <td>{{book.price}}</td>
+        <td>{{book.subject}}</td>
+        <td><a href="edit_article/{{book.id}}" class="btn btn-default pull-right">Edit</a></td>
+        <td>
+          <form action="edit_article/{{book.id}}" method="post">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="submit" value="Book Sold" class="btn btn-primary">
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

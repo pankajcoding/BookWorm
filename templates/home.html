@@ -1,0 +1,57 @@
+{% if session.logged_in == NULL %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>BookWorm Home Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body class="landingpage">
+  <div class="jumbotron text-center">
+    <h1 style="
+    text-shadow: 2px 3px 10px rgba(0, 0, 0, 0.38);
+    text-shadow: 3px 3px 0px rgb(136, 131, 131);
+    text-shadow: 3px 3px 7px rgb(226, 2, 2);
+    text-shadow: 3px 3px 7px rgb(82, 82, 82);
+">Welcome To BookWorm</h1>
+    <p style="margin-top:20px;margin-bottom: 20px;" class="lead">Buy and sell old books directly</p>
+      <a href="/register" class="btn btn-primary btn-lg">Register</a>
+      <a href="/login" class="btn btn-success btn-lg">Login</a>
+  </div>
+</body>
+</html>
+
+
+
+
+
+
+{% else %}
+  {% extends 'layout.html' %}
+  {% set active_page = "index" %}
+
+  {% block body %}
+    <div class="jumbotron text-center">
+      <h1>Welcome To BookWorm</h1>
+      <p class="lead">Buy and sell old books</p>
+      {% if session.logged_in == NULL %}
+        <a href="/register" class="btn btn-primary btn-lg">Register</a>
+        <a href="/login" class="btn btn-success btn-lg">Login</a>
+
+      {% else %}
+      <li>  <form class="search-form">
+          <input type="text" class="search" placeholder="Seach a book">
+          <ul class="suggestions">
+          </ul>
+        </form></li>
+      {% endif %}
+    </div>
+  {% endblock %}
+
+{% endif %}
+

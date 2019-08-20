@@ -1,0 +1,101 @@
+{% extends 'layout.html' %}
+{% set active_page = "register" %}
+
+{% block body %}
+
+<div class="register-form">
+  <h1>Register</h1>
+  {% from "includes/_formhelpers.html" import render_field %}
+  <form method="POST" action="">
+    <div class="form-group">
+      {{render_field(form.name, class_="form-control")}}
+    </div>
+    <div class="form-group">
+      {{render_field(form.email, class_="form-control")}}
+    </div>
+    <div class="form-group">
+      {{render_field(form.phone, class_="form-control")}}
+    </div>
+    
+    <div class="form-group">
+      {{render_field(form.college, class_="form-control", autocomplete="off")}}
+      <ul id="college-suggestion" class="suggestions">
+        </ul>
+      </li>
+    </div>
+    <div class="form-group">
+      {{render_field(form.password, class_="form-control")}}
+    </div>
+    <div class="form-group">
+      {{render_field(form.confirm, class_="form-control")}}
+    </div>
+
+    <p>
+      <div class="horizontal-center">
+        <input type="submit" class="btn btn-primary shiftTenPixel" value="Submit"></p>
+    </div>
+  </form>
+</div>
+
+
+<script src="{{ url_for('static', filename='js/college.js') }}"></script>
+
+
+<script>
+function selectCollege(e,college){
+  console.log(col);
+  console.log("dsd sdsd")
+
+
+}
+
+
+document.addEventListener('DOMContentLoaded', function(){ 
+  // console.log(collegeList)
+
+  $('#college-suggestion').on('click', 'li', function() {
+    $("input#college").val($(this).text().trim())
+    collegesuggestions.innerHTML = '';
+
+    // console.log()
+  });
+});
+
+
+  function findCollegeMatches(wordToMatch, colleges) {
+    return colleges.filter(college => {
+      // here we need to figure out if the city or state matches what was searched
+      const regex = new RegExp(wordToMatch, 'gi');
+      return college.match(regex)
+    });
+  }
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+  function displaycollegeMatches() {
+    if (this.value==""){
+      collegesuggestions.innerHTML = '';
+      return;
+    }
+    const matchArray = findCollegeMatches(this.value, collegeList);
+    const html = matchArray.map(college => {
+      const regex = new RegExp(this.value, 'gi');
+      // const collegeName = college.replace(regex, `<span class="hl">${this.value}</span>`);
+      return `
+        
+      <li " style="display:flex;">
+          <span class="name">${college}</span>
+        </li>
+      
+      `;
+    }).join('');
+    collegesuggestions.innerHTML = html;
+  }
+  const collegeInput = document.querySelector('input#college ');
+  const collegesuggestions = document.querySelector('#college-suggestion');
+  collegeInput.addEventListener('change', displaycollegeMatches);
+  collegeInput.addEventListener('keyup', displaycollegeMatches);
+
+
+</script>
+{% endblock %}
