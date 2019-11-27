@@ -30,45 +30,6 @@ def index():
     return render_template('home.html')
 
 
-# About
-@app.route('/about')
-def about():
-    return render_template('about.html')
-
-
-# Articles
-@app.route('/articles')
-def articles():
-    # Create cursor
-    cur = mysql.connection.cursor()
-
-    # Get articles
-    result = cur.execute("SELECT * FROM articles")
-
-    articles = cur.fetchall()
-
-    if result > 0:
-        return render_template('articles.html', articles=articles)
-    else:
-        msg = 'No Articles Found'
-        return render_template('articles.html', msg=msg)
-    # Close connection
-    cur.close()
-
-
-#Single Article
-@app.route('/article/<string:id>/')
-def article(id):
-    # Create cursor
-    cur = mysql.connection.cursor()
-
-    # Get article
-    result = cur.execute("SELECT * FROM articles WHERE id = %s", [id])
-
-    article = cur.fetchone()
-
-    return render_template('article.html', article=article)
-
 
 # Register Form Class
 class RegisterForm(Form):
@@ -81,7 +42,6 @@ class RegisterForm(Form):
         validators.EqualTo('confirm', message='Passwords do not match')
     ])
     confirm = PasswordField('Confirm Password')
-
 
 # User Register
 @app.route('/register', methods=['GET', 'POST'])
@@ -310,14 +270,14 @@ def edit_article(id):
     return render_template('edit_article.html', form=form)
 
 # Delete Article
-@app.route('/delete_article/<string:id>', methods=['POST'])
+@app.route('/delete_book/<string:id>', methods=['POST'])
 @is_logged_in
-def delete_article(id):
+def delete_book(id):
     # Create cursor
     cur = mysql.connection.cursor()
 
     # Execute
-    cur.execute("DELETE FROM articles WHERE id = %s", [id])
+    cur.execute("DELETE FROM books WHERE id = %s", [id])
 
     # Commit to DB
     mysql.connection.commit()
@@ -325,7 +285,7 @@ def delete_article(id):
     #Close connection
     cur.close()
 
-    flash('Article Deleted', 'success')
+    flash('Book Deleted', 'success')
 
     return redirect(url_for('dashboard'))
 
